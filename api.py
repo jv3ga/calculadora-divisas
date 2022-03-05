@@ -50,7 +50,9 @@ while menu != 0:
                 input('Presiona una tecla para continuar')
         elif menu == 2:
             limit = input('¿Cuántos quieres mostrar? (máximo 500)')
-            if is_int(limit):
+            if not is_int(limit):
+                print('Debes indicar un número entero')
+            else:
                 url = 'https://data.messari.io/api/v2/assets?fields=name,symbol&limit={}'.format(
                     limit
                 )
@@ -62,10 +64,7 @@ while menu != 0:
                             symbol=key['symbol']
                         ))
                 else:
-                    print('No se encuentra el simbolo seleccionado')
-                    input('Presiona una tecla para continuar')
-            else:
-                print('Debes indicar un número entero')
+                    input('Se ha producido un error. Presiona una tecla para continuar')
         elif menu == 0:
             print('Adiós')
         else:
