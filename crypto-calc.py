@@ -1,3 +1,4 @@
+from re import A
 import requests
 
 def is_int(val):
@@ -19,7 +20,7 @@ while menu != 0:
     else:
         menu = int(menu)
         if menu == 1:
-            asset = input('Introduce la moneda que quieras convertir: ').upper()
+            asset = input('Introduce la moneda que quieras convertir (por ejemplo ETH): ').upper()
             url = 'https://data.messari.io/api/v1/assets/{}/metrics'.format(asset)
             data = requests.request('GET', url)
             if data.ok:
@@ -31,7 +32,13 @@ while menu != 0:
                     btc=price_btc,
                     usd=price_usd
                 ))
-                cantidad = int(input('Introduce la cantidad que deseas convertir: '))
+                cantidad = 'A'
+                while not is_int(cantidad):
+                    cantidad = input('Introduce la cantidad que deseas convertir: ')
+                    if not is_int(cantidad):
+                        print('Debes introducir  un número')
+                    else:
+                        cantidad = int(cantidad)
                 total_btc = cantidad * price_btc
                 total_usd = cantidad * price_usd
                 print('{cantidad} {asset} a BTC = {total_btc}'.format(
@@ -44,10 +51,10 @@ while menu != 0:
                     asset=asset,
                     total_usd=total_usd
                 ))
-                input('Presiona una tecla para continuar')
+                input('Presiona una intro para continuar')
             else:
                 print('No se encuentra el simbolo seleccionado')
-                input('Presiona una tecla para continuar')
+                input('Presiona una intro para continuar')
         elif menu == 2:
             limit = input('¿Cuántos quieres mostrar? (máximo 500)')
             if not is_int(limit):
@@ -64,7 +71,7 @@ while menu != 0:
                             symbol=key['symbol']
                         ))
                 else:
-                    input('Se ha producido un error. Presiona una tecla para continuar')
+                    input('Se ha producido un error. Presiona una intro para continuar')
         elif menu == 0:
             print('Adiós')
         else:
